@@ -2,89 +2,138 @@ import React, { Component } from "react";
 import {
   Text,
   View,
-  TextInput,
-  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Dimensions,
   TouchableOpacity
 } from "react-native";
 import Base from "./registerBase";
 import styles from "../../styles";
+import InputField from "../../components/formInput";
+import FormBackground from "../../components/formBackground";
+import FormSubmitButton from "../../components/formSubmitButton";
 
 export default class Register extends Base {
   render() {
+    const height = Dimensions.get("window").height;
+    const { error } = this.state;
+
     return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: "stretch",
-          justifyContent: "space-between",
-          backgroundColor: "#7e00fc"
+      // <KeyboardAvoidingView behavior={"padding"}>
+      <ScrollView
+        keyboardShouldPersistTaps="always"
+        contentContainerStyle={{
+          height: height
         }}
       >
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "flex-end" }}
-        >
-          <Text
-            style={{
-              color: "#fff",
-              fontWeight: "bold",
-              fontSize: 40,
-              fontStyle: "italic"
-            }}
-          >
-            Krishna
-          </Text>
-        </View>
-        <View
-          style={{ flex: 3, alignItems: "center", justifyContent: "center" }}
-        >
-          <TextInput style={style.input} placeholder="Email" />
-          <TextInput style={style.input} placeholder="Username" />
-          <TextInput style={style.input} placeholder="Full Name" />
-          <TextInput style={style.input} placeholder="Password" />
-          <TextInput style={style.input} placeholder="Confirm Password" />
-          <TouchableOpacity style={style.button}>
-            <Text style={{ color: "#fff", fontSize: 16 }}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
+        <FormBackground />
         <View
           style={{
-            height: 46,
+            flex: 1,
             alignItems: "center",
-            justifyContent: "center",
-            borderTopWidth: 2,
-            borderColor: "#490094"
+            justifyContent: "space-between"
           }}
         >
-          <Text style={{ color: "#fff" }}>
-            Already have an account?{" "}
-            <Text style={{ fontWeight: "bold" }}>Log In.</Text>
-          </Text>
+          <View
+            style={{
+              height: 100,
+              justifyContent: "flex-end"
+            }}
+          >
+            <Text
+              style={{
+                color: "#fff",
+                fontWeight: "bold",
+                fontSize: 40,
+                fontStyle: "italic"
+              }}
+            >
+              Krishna
+            </Text>
+          </View>
+          <View
+            style={{
+              height: 420,
+              marginVertical: 20,
+              width: "80%",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 8,
+              backgroundColor: "#fff",
+              elevation: 8
+            }}
+          >
+            <InputField
+              label="Email"
+              value={this.state.user.email}
+              onChangeText={text =>
+                this.handleChange(text, "email", "emailError")
+              }
+              errorField={error.emailError}
+            />
+            <InputField
+              label="Username"
+              value={this.state.user.username}
+              onChangeText={text =>
+                this.handleChange(text, "username", "usernameError")
+              }
+              errorField={error.usernameError}
+            />
+            <InputField
+              label="Full Name"
+              value={this.state.user.fullname}
+              onChangeText={text =>
+                this.handleChange(text, "fullname", "fullnameError")
+              }
+              errorField={error.fullnameError}
+            />
+            <InputField
+              label="Password"
+              value={this.state.user.password}
+              onChangeText={text =>
+                this.handleChange(text, "password", "passwordError")
+              }
+              errorField={error.passwordError}
+              secureTextEntry={true}
+            />
+            <InputField
+              label="Confirm Password"
+              value={this.state.user.confirmPassword}
+              onChangeText={text =>
+                this.handleChange(
+                  text,
+                  "confirmPassword",
+                  "confirmPasswordError"
+                )
+              }
+              errorField={error.confirmPasswordError}
+              secureTextEntry={true}
+            />
+            <FormSubmitButton
+              title="Sign Up"
+              onPress={this.validateAllFields}
+            />
+          </View>
+          <TouchableOpacity
+            style={{
+              height: 46,
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+              borderTopWidth: 0.5,
+              borderColor: "#490094",
+              backgroundColor: "#7e00fc"
+            }}
+            onPress={() => this.props.navigation.navigate("Login")}
+          >
+            <Text style={{ color: "#fff" }}>
+              Already have an account?{" "}
+              <Text style={{ fontWeight: "bold" }}>Log In.</Text>
+            </Text>
+          </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
+      // </KeyboardAvoidingView>
     );
   }
 }
-
-const style = StyleSheet.create({
-  input: {
-    backgroundColor: "#fff",
-    margin: 8,
-    height: 40,
-    borderRadius: 20,
-    width: "70%",
-    paddingHorizontal: 16,
-    borderWidth: 2,
-    borderColor: "#490094"
-  },
-  button: {
-    backgroundColor: "#490094",
-    margin: 8,
-    height: 40,
-    justifyContent: "center",
-    width: "70%",
-    borderRadius: 20,
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#fff"
-  }
-});

@@ -53,7 +53,7 @@ export default class Register extends Base {
           </View>
           <View
             style={{
-              height: 420,
+              height: 440,
               marginVertical: 20,
               width: "80%",
               alignItems: "center",

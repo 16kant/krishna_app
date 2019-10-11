@@ -29,12 +29,13 @@ export default class Login extends Base {
           <View
             style={{
               flex: 1,
-              alignItems: "center"
+              alignItems: "center",
+              justifyContent: "space-between"
             }}
           >
             <View
               style={{
-                flex: 1,
+                height: 100,
                 justifyContent: "flex-end"
               }}
             >
@@ -51,7 +52,7 @@ export default class Login extends Base {
             </View>
             <View
               style={{
-                flex: 2,
+                height: 260,
                 marginVertical: 70,
                 width: "80%",
                 alignItems: "center",

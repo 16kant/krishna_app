@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import {
-  isValidEmail,
-  isValidPassword,
-  isValidConfirmPassword,
-  checkEmpty
-} from "./../../utilities/validations";
+import { isValidEmail, checkEmpty } from "./../../utilities/validations";
 import { isString } from "lodash";
+import callApi from "../../utilities/apiCaller";
 
 export default class Login extends Component {
   constructor(props) {
@@ -50,5 +46,13 @@ export default class Login extends Component {
     this.state.error.passwordError = password;
     this.setState({});
     return false;
+  };
+
+  onSubmit = () => {
+    if (this.validateAllFields()) {
+      callApi()
+        .then(response => console.warn("callapi response", response))
+        .catch(error => console.warn("error", error));
+    }
   };
 }

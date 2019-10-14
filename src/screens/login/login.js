@@ -77,7 +77,7 @@ export default class Login extends Base {
               />
               <FormSubmitButton
                 title="Log In"
-                onPress={this.validateAllFields}
+                onPress={this.onSubmit}
               />
               <Text style={{ color: "#490094", fontSize: 12 }}>
                 Forgot Password?

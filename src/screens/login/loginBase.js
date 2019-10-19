@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { isValidEmail, checkEmpty } from "./../../utilities/validations";
 import { isString } from "lodash";
+import AsyncStorage from "@react-native-community/async-storage";
 import callApi from "../../utilities/apiCaller";
 
 export default class Login extends Component {
@@ -48,11 +49,13 @@ export default class Login extends Component {
     return false;
   };
 
-  onSubmit = () => {
-    if (this.validateAllFields()) {
-      callApi()
-        .then(response => console.warn("callapi response", response))
-        .catch(error => console.warn("error", error));
-    }
+  onSubmit = async () => {
+    await AsyncStorage.setItem("userToken", "abc");
+    this.props.navigation.navigate("AppStack");
+    // if (this.validateAllFields()) {
+    //   callApi()
+    //     .then(response => console.warn("callapi response", response))
+    //     .catch(error => console.warn("error", error));
+    // }
   };
 }

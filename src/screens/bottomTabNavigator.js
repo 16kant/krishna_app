@@ -1,14 +1,19 @@
 import React from "react";
-import { createAppContainer } from "react-navigation";
-import { createBottomTabNavigator } from "react-navigation-tabs";
+import {
+  createBottomTabNavigator,
+  createMaterialTopTabNavigator
+} from "react-navigation-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Home from "./home";
 import Second from "./second";
+import PanTest from "./panTest";
+import MyDrawerNavigator from "./drawerNavigator";
 
 const BottomTabNavigator = createBottomTabNavigator(
   {
-    Home: { screen: Home },
-    Second: { screen: Second }
+    Home: { screen: MyDrawerNavigator },
+    Second: { screen: Second },
+    PanTest: { screen: PanTest }
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -18,10 +23,6 @@ const BottomTabNavigator = createBottomTabNavigator(
         if (routeName === "Home") {
           iconName = `home`;
         }
-        // } else if (routeName === "Settings") {
-        //   iconName = `ios-options`;
-        // }
-
         return (
           <MaterialCommunityIcons name={iconName} size={30} color={tintColor} />
         );
@@ -29,8 +30,8 @@ const BottomTabNavigator = createBottomTabNavigator(
     }),
     tabBarOptions: {
       activeTintColor: "tomato",
-      inactiveTintColor: "gray",
-    },
+      inactiveTintColor: "gray"
+    }
   }
 );
-export default createAppContainer(BottomTabNavigator);
+export default BottomTabNavigator;

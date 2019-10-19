@@ -4,9 +4,8 @@ import {
   createDrawerNavigator,
   DrawerNavigatorItems
 } from "react-navigation-drawer";
-import { createAppContainer } from "react-navigation";
-import BottomTabNavigator from "./bottomTabNavigator";
 import DrawerHeader from "../images/under_construction.png";
+import Home from "./home";
 
 const CustomDrawerContentComponent = props => (
   <View style={{ flex: 1, backgroundColor: "#a3a199" }}>
@@ -15,36 +14,26 @@ const CustomDrawerContentComponent = props => (
   </View>
 );
 
-class MyHomeScreen extends React.Component {
-  static navigationOptions = {
-    drawerLabel: "Home"
-  };
-  render() {
-    return <BottomTabNavigator />;
-  }
-}
-
 class MyNotificationsScreen extends React.Component {
   static navigationOptions = {
     drawerLabel: "Notifications"
   };
   render() {
     return (
-      <Button
-        onPress={() => this.props.navigation.goBack()}
-        title="Go back home"
-      />
+      <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+        <Button
+          onPress={() => this.props.navigation.goBack()}
+          title="Go back home"
+        />
+      </View>
     );
   }
 }
 
 const MyDrawerNavigator = createDrawerNavigator(
   {
-    // BottomTabNavigator: {
-    //   screen: BottomTabNavigator
-    // },
     Home: {
-      screen: MyHomeScreen
+      screen: Home
     },
     Notifications: {
       screen: MyNotificationsScreen
@@ -67,4 +56,4 @@ const MyDrawerNavigator = createDrawerNavigator(
   }
 );
 
-export default createAppContainer(MyDrawerNavigator);
+export default MyDrawerNavigator;

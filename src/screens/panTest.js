@@ -5,38 +5,38 @@ export default class PanTest extends Component {
   constructor() {
     super();
     this.state = {
-      pan: new Animated.ValueXY(),
-      panValue: 0
+      pan: new Animated.ValueXY()
     };
   }
 
   UNSAFE_componentWillMount() {
     this._animatedValueX = 0;
     this._animatedValueY = 0;
-    this.state.pan.x.addListener(({ value }) => (this._animatedValueX = value));
+    this.state.pan.x.addListener(value => (this._animatedValueX = value.value));
     this.state.pan.y.addListener(value => (this._animatedValueY = value.value));
-  }
 
-  _panResponder = PanResponder.create({
-    onMoveShouldSetResponderCapture: () => true,
-    onMoveShouldSetPanResponderCapture: () => true,
-    onPanResponderGrant: (e, gestureState) => {
-      this.state.pan.setOffset({
-        x: this._animatedValueX,
-        y: this._animatedValueY
-      });
-      this.state.pan.setValue({ x: 0, y: 0 });
-    },
-    onPanResponderMove: (e, gestureState) => {
-      this.state.pan.setValue({ x: gestureState.dx, y: gestureState.dy });
-    },
-    onPanResponderRelease: () => {
-      Animated.spring(this.state.pan, {
-        toValue: 0
-      }).start();
-      this.state.pan.flattenOffset();
-    }
-  });
+    this._panResponder = PanResponder.create({
+      onMoveShouldSetResponderCapture: () => true,
+      onMoveShouldSetPanResponderCapture: () => true,
+      onPanResponderGrant: (e, gestureState) => {
+        this.state.pan.setOffset({
+          x: this._animatedValueX,
+          y: this._animatedValueY
+        });
+        this.state.pan.setValue({ x: 0, y: 0 });
+      },
+      onPanResponderMove: Animated.event([
+        null,
+        { dx: this.state.pan.x, dy: this.state.pan.y }
+      ]),
+      onPanResponderRelease: () => {
+        // Animated.spring(this.state.pan, {
+        //   toValue: 0
+        // }).start();
+        this.state.pan.flattenOffset();
+      }
+    });
+  }
 
   componentWillUnmount() {
     this.state.pan.x.removeAllListeners();
@@ -57,7 +57,7 @@ export default class PanTest extends Component {
           {
             rotate: this.state.pan.y.interpolate({
               inputRange: [-200, 0, 200],
-              outputRange: ["-360deg", "0deg", "360deg"]
+              outputRange: ["-30deg", "0deg", "30deg"]
             })
           }
         ]

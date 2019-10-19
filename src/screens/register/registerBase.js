@@ -45,6 +45,8 @@ export default class Register extends Component {
     this.changeText(value, name);
   };
 
+  onSubmit = () => {}
+
   validateAllFields = () => {
     let fullname = checkEmpty(this.state.user.fullname);
     let username = checkEmpty(this.state.user.username);

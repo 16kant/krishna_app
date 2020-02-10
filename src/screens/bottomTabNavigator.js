@@ -5,15 +5,15 @@ import {
 } from "react-navigation-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Home from "./home";
-import Second from "./second";
+import PanTest2 from "./panTest2";
 import PanTest from "./panTest";
 import MyDrawerNavigator from "./drawerNavigator";
 
 const BottomTabNavigator = createBottomTabNavigator(
   {
     Home: { screen: MyDrawerNavigator },
-    Second: { screen: Second },
-    PanTest: { screen: PanTest }
+    PanTest: { screen: PanTest },
+    PanTest2: { screen: PanTest2 }
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({

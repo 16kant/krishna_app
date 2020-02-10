@@ -6,6 +6,8 @@ import {
 } from "react-navigation-drawer";
 import DrawerHeader from "../images/under_construction.png";
 import Home from "./home";
+import First from "./animations/first";
+import Second from "./animations/second";
 
 const CustomDrawerContentComponent = props => (
   <View style={{ flex: 1, backgroundColor: "#a3a199" }}>
@@ -15,12 +17,12 @@ const CustomDrawerContentComponent = props => (
 );
 
 class MyNotificationsScreen extends React.Component {
-  static navigationOptions = {
-    drawerLabel: "Notifications"
-  };
+  // static navigationOptions = {
+  //   drawerLabel: "Notifications"
+  // };
   render() {
     return (
-      <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Button
           onPress={() => this.props.navigation.goBack()}
           title="Go back home"
@@ -37,9 +39,16 @@ const MyDrawerNavigator = createDrawerNavigator(
     },
     Notifications: {
       screen: MyNotificationsScreen
+    },
+    First: {
+      screen: First
+    },
+    Second: {
+      screen: Second
     }
   },
   {
+    initialRouteName: "First",
     overlayColor: "#fff",
     contentComponent: CustomDrawerContentComponent,
     contentOptions: {

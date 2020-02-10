@@ -1,0 +1,30 @@
+{
+  "root": true,
+  "extends": "@react-native-community",
+  "rules": {
+    "comma-dangle": "off",
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "any",
+        "ignoreReadBeforeAssign": false
+      }
+    ],
+    "default-case": ["error"],
+    "newline-after-var": ["error", "always"],
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": false
+      }
+    ]
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest/globals": true
+  },
+  "jsx-quotes": ["error", "prefer-single"]
+}

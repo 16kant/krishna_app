@@ -6,7 +6,7 @@ import { TapGestureHandler, State } from "react-native-gesture-handler";
 export default First = () => {
   const { event, cond, eq, Value } = Animated;
   // const [state, setState] = useState(new Value(-1));
-  const state = new Value(-1);
+  let state = new Value(-1);
 
   const onStateChange = event([
     {
@@ -15,8 +15,12 @@ export default First = () => {
       }
     }
   ]);
-  const _opacity = cond(eq(state, State.ACTIVE), 0.2, 1);
-  console.log("State", State, "state", state);
+  // const onStateChange = ({ nativeEvent }) => {
+  //   console.log("nativeEvent>>>>", nativeEvent);
+  //   state = new Value(nativeEvent.state);
+  // };
+  const _opacity = cond(eq(state, State.BEGAN), 0.2, 1);
+  // console.log("State", State, "state", state);
   return (
     <View style={styles.container}>
       <TapGestureHandler onHandlerStateChange={onStateChange}>

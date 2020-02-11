@@ -8,6 +8,7 @@ import DrawerHeader from "../images/under_construction.png";
 import Home from "./home";
 import First from "./animations/first";
 import Second from "./animations/second";
+import Third from "./animations/third";
 
 const CustomDrawerContentComponent = props => (
   <View style={{ flex: 1, backgroundColor: "#a3a199" }}>
@@ -45,6 +46,9 @@ const MyDrawerNavigator = createDrawerNavigator(
     },
     Second: {
       screen: Second
+    },
+    Third: {
+      screen: Third
     }
   },
   {

@@ -16,7 +16,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <View style={{ flex: 1 }}>
-          <StatusBar translucent={true} backgroundColor="transparent" />
+          <StatusBar translucent={false} backgroundColor="black" />
           <SwitchNavigator />
           {/* <DrawerNavigator /> */}
           {/* <BottomTabNavigator /> */}

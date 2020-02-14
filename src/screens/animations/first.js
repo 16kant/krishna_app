@@ -1,37 +1,74 @@
-import React, { useState } from "react";
-import { View, Button, StyleSheet } from "react-native";
+import React, { useState, useRef } from "react";
+import { View, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
-import { TapGestureHandler, State } from "react-native-gesture-handler";
+import {
+  TapGestureHandler,
+  LongPressGestureHandler,
+  State
+} from "react-native-gesture-handler";
 
 export default First = () => {
   const { event, cond, eq, Value } = Animated;
-  // const [state, setState] = useState(new Value(-1));
-  let state = new Value(-1);
-
-  const onStateChange = event([
-    {
-      nativeEvent: {
-        state: state
-      }
+  const [state, setState] = useState(new Value(-1));
+  // let state = new Value(-1);
+  const doubleTapRef = useRef();
+  const onSingleTap = ({ nativeEvent }) => {
+    if (nativeEvent.state === State.ACTIVE) {
+      alert("Single tap");
     }
-  ]);
-  // const onStateChange = ({ nativeEvent }) => {
-  //   console.log("nativeEvent>>>>", nativeEvent);
-  //   state = new Value(nativeEvent.state);
-  // };
-  const _opacity = cond(eq(state, State.BEGAN), 0.2, 1);
-  // console.log("State", State, "state", state);
+  };
+  const onDoubleTap = ({ nativeEvent }) => {
+    if (nativeEvent.state === State.ACTIVE) {
+      alert("Double tap");
+    }
+  };
+
+  // const onStateChange = event([
+  //   {
+  //     nativeEvent: {
+  //       state: state
+  //     }
+  //   }
+  // ]);
+  const onStateChange = ({ nativeEvent }) => {
+    setState(new Value(nativeEvent.state));
+    if (nativeEvent.state === State.END) {
+      alert("Long press");
+    }
+    if (nativeEvent.state === State.CANCELLED) {
+      alert("Long press cancelled");
+    }
+    // console.log("nativeEvent>>>>", nativeEvent);
+  };
+  const _opacity = cond(eq(state, State.ACTIVE), 0.2, 1);
+
   return (
     <View style={styles.container}>
-      <TapGestureHandler onHandlerStateChange={onStateChange}>
-        <Animated.View style={[styles.box, { opacity: _opacity }]} />
-      </TapGestureHandler>
+      <LongPressGestureHandler
+        onHandlerStateChange={onStateChange}
+        minDurationMs={300}
+        maxDist={10}
+      >
+        <TapGestureHandler
+          onHandlerStateChange={onSingleTap}
+          waitFor={doubleTapRef}
+        >
+          <TapGestureHandler
+            onHandlerStateChange={onDoubleTap}
+            numberOfTaps={2}
+            maxDelayMs={300}
+            ref={doubleTapRef}
+          >
+            <Animated.View style={[styles.box, { opacity: _opacity }]} />
+          </TapGestureHandler>
+        </TapGestureHandler>
+      </LongPressGestureHandler>
     </View>
   );
 };
 
 First.navigationOptions = {
-  drawerLabel: "First"
+  drawerLabel: "TapGestureHandler"
 };
 
 const styles = StyleSheet.create({

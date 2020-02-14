@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -15,36 +15,38 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-export default class AnimatedCollapsible extends React.Component {
-  state = { expanded: false };
-  render() {
-    return (
-      <View style={[styles.container, { overflow: "hidden" }]}>
-        <TouchableOpacity
-          onPress={() => {
-            LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-            this.setState({ expanded: !this.state.expanded });
-          }}
-        >
-          <Text>
-            Press me to {this.state.expanded ? "collapse" : "expand"}!
-          </Text>
-        </TouchableOpacity>
-        {this.state.expanded && <Text>I disappear sometimes!</Text>}
-      </View>
-    );
-  }
-}
+
+export default Third = () => {
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <View style={[styles.container, { overflow: "hidden" }]}>
+      <TouchableOpacity
+        onPress={() => {
+          LayoutAnimation.configureNext(
+            LayoutAnimation.create(
+              400,
+              LayoutAnimation.Types.easeInEaseOut,
+              LayoutAnimation.Properties.scaleXY
+            )
+          );
+          setExpanded(!expanded);
+        }}
+      >
+        <Text>Press me to {expanded ? "collapse" : "expand"}!</Text>
+      </TouchableOpacity>
+      {expanded && <Text>I disappear sometimes!</Text>}
+    </View>
+  );
+};
+
+Third.navigationOptions = {
+  drawerLabel: "LayoutAnimation"
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center"
-  },
-  box: {
-    backgroundColor: "tomato",
-    width: 200,
-    height: 200
   }
 });

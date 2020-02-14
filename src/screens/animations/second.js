@@ -424,12 +424,12 @@ class Viewer extends Component {
 
 export default class Example extends Component {
   static navigationOptions = {
-    title: "Image Viewer Example"
+    title: "ImageViewerExample"
   };
   render() {
     return (
       <View style={styles.container}>
-        <Viewer source={require("./grid.png")} />
+        <Viewer source={require("../../images/grid.png")} />
       </View>
     );
   }

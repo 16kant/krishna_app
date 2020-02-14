@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Button, Image } from "react-native";
+import { View, Image } from "react-native";
 import {
   createDrawerNavigator,
   DrawerNavigatorItems
@@ -9,7 +9,9 @@ import Home from "./home";
 import First from "./animations/first";
 import Second from "./animations/second";
 import Third from "./animations/third";
-
+import Fourth from "./animations/fourth";
+import Fifth from "./animations/fifth";
+import Sixth from "./animations/sixth";
 const CustomDrawerContentComponent = props => (
   <View style={{ flex: 1, backgroundColor: "#a3a199" }}>
     <Image source={DrawerHeader} style={{ height: 80, width: "100%" }} />
@@ -17,42 +19,32 @@ const CustomDrawerContentComponent = props => (
   </View>
 );
 
-class MyNotificationsScreen extends React.Component {
-  // static navigationOptions = {
-  //   drawerLabel: "Notifications"
-  // };
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Button
-          onPress={() => this.props.navigation.goBack()}
-          title="Go back home"
-        />
-      </View>
-    );
-  }
-}
-
 const MyDrawerNavigator = createDrawerNavigator(
   {
     Home: {
       screen: Home
     },
-    Notifications: {
-      screen: MyNotificationsScreen
-    },
     First: {
       screen: First
     },
-    Second: {
-      screen: Second
-    },
+    // Second: {
+    //   screen: Second
+    // },
     Third: {
       screen: Third
+    },
+    Fourth: {
+      screen: Fourth
+    },
+    Fifth: {
+      screen: Fifth
+    },
+    Sixth: {
+      screen: Sixth
     }
   },
   {
-    initialRouteName: "First",
+    initialRouteName: "Home",
     overlayColor: "#fff",
     contentComponent: CustomDrawerContentComponent,
     contentOptions: {

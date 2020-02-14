@@ -33,7 +33,7 @@ export default class PanTest extends Component {
         // Animated.spring(this.state.pan, {
         //   toValue: 0
         // }).start();
-        this.state.pan.flattenOffset();
+        // this.state.pan.flattenOffset();
       }
     });
   }

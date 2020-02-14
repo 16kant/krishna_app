@@ -5,16 +5,15 @@ export default class PanTest extends Component {
   constructor() {
     super();
     this.state = {
-      pan: new Animated.ValueXY(),
-      panValue: 0
+      pan: new Animated.ValueXY()
     };
   }
 
   UNSAFE_componentWillMount() {
     this._animatedValueX = 0;
     this._animatedValueY = 0;
-    this.state.pan.x.addListener(({ value }) => (this._animatedValueX = value));
-    this.state.pan.y.addListener(value => (this._animatedValueY = value.value));
+    // this.state.pan.x.addListener(({ value }) => (this._animatedValueX = value));
+    // this.state.pan.y.addListener(value => (this._animatedValueY = value.value));
   }
 
   _panResponder = PanResponder.create({
@@ -34,13 +33,13 @@ export default class PanTest extends Component {
       Animated.spring(this.state.pan, {
         toValue: 0
       }).start();
-      this.state.pan.flattenOffset();
+      // this.state.pan.flattenOffset();
     }
   });
 
   componentWillUnmount() {
-    this.state.pan.x.removeAllListeners();
-    this.state.pan.y.removeAllListeners();
+    // this.state.pan.x.removeAllListeners();
+    // this.state.pan.y.removeAllListeners();
   }
 
   getStyle = () => {

@@ -16,7 +16,7 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-export default Third = () => {
+export default LayoutAnimationExample = () => {
   const [expanded, setExpanded] = useState(false);
   return (
     <View style={[styles.container, { overflow: "hidden" }]}>
@@ -39,7 +39,7 @@ export default Third = () => {
   );
 };
 
-Third.navigationOptions = {
+LayoutAnimationExample.navigationOptions = {
   drawerLabel: "LayoutAnimation"
 };
 

@@ -4,14 +4,17 @@ import {
   createDrawerNavigator,
   DrawerNavigatorItems
 } from "react-navigation-drawer";
+
 import DrawerHeader from "../images/under_construction.png";
 import Home from "./home";
-import First from "./animations/first";
-import Second from "./animations/second";
-import Third from "./animations/third";
-import Fourth from "./animations/fourth";
-import Fifth from "./animations/fifth";
-import Sixth from "./animations/sixth";
+import TapGesture from "./animations/TapGesture";
+import LayoutAnimationExample from "./animations/LayoutAnimationExample";
+import PanGesture from "./animations/PanGesture";
+import RotationGesture from "./animations/RotationGesture";
+import FlingGesture from "./animations/FlingGesture";
+import SwipeableList from "./animations/SwipeableList";
+import ImageViewerExample from "./animations/ImageViewerExample";
+
 const CustomDrawerContentComponent = props => (
   <View style={{ flex: 1, backgroundColor: "#a3a199" }}>
     <Image source={DrawerHeader} style={{ height: 80, width: "100%" }} />
@@ -24,24 +27,27 @@ const MyDrawerNavigator = createDrawerNavigator(
     Home: {
       screen: Home
     },
-    First: {
-      screen: First
+    PanGesture: {
+      screen: PanGesture
     },
-    // Second: {
-    //   screen: Second
-    // },
-    Third: {
-      screen: Third
+    TapGesture: {
+      screen: TapGesture
     },
-    Fourth: {
-      screen: Fourth
+    LayoutAnimationExample: {
+      screen: LayoutAnimationExample
     },
-    Fifth: {
-      screen: Fifth
+    RotationGesture: {
+      screen: RotationGesture
     },
-    Sixth: {
-      screen: Sixth
+    FlingGesture: {
+      screen: FlingGesture
+    },
+    SwipeableList: {
+      screen: SwipeableList
     }
+    // ImageViewerExample: {
+    //   screen: ImageViewerExample
+    // },
   },
   {
     initialRouteName: "Home",

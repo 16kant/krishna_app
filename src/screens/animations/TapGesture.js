@@ -7,7 +7,7 @@ import {
   State
 } from "react-native-gesture-handler";
 
-export default First = () => {
+export default TapGesture = () => {
   const { event, cond, eq, Value } = Animated;
   const [state, setState] = useState(new Value(-1));
   // let state = new Value(-1);
@@ -67,7 +67,7 @@ export default First = () => {
   );
 };
 
-First.navigationOptions = {
+TapGesture.navigationOptions = {
   drawerLabel: "TapGestureHandler"
 };
 

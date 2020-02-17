@@ -7,7 +7,7 @@ import {
   State
 } from "react-native-gesture-handler";
 
-export default Fifth = () => {
+export default RotationGesture = () => {
   const rotationRef = useRef();
   const pinchRef = useRef();
   const panRef = useRef();
@@ -119,7 +119,7 @@ export default Fifth = () => {
   );
 };
 
-Fifth.navigationOptions = {
+RotationGesture.navigationOptions = {
   drawerLabel: "RotationGestureHandler"
 };
 

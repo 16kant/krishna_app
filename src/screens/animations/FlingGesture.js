@@ -133,7 +133,7 @@ const RowComponent = ({ flexDir, translateX, translateY }) => {
   );
 };
 
-export default Sixth = () => {
+export default FlingGesture = () => {
   const translateX = new Animated.Value(0);
   const translateY = new Animated.Value(0);
 
@@ -304,7 +304,7 @@ export default Sixth = () => {
   );
 };
 
-Sixth.navigationOptions = {
+FlingGesture.navigationOptions = {
   drawerLabel: "FlingGestureHandler"
 };
 

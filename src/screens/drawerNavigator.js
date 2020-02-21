@@ -12,9 +12,10 @@ import LayoutAnimationExample from "./gestures/LayoutAnimationExample";
 import PanGesture from "./gestures/PanGesture";
 import RotationGesture from "./gestures/RotationGesture";
 import FlingGesture from "./gestures/FlingGesture";
-import SwipeableList from "./gestures/SwipeableList";
+// import SwipeableList from "./gestures/SwipeableList";
 import ImageViewerExample from "./gestures/ImageViewerExample";
 import DrawerLayoutExample from "./gestures/DrawerLayoutExample";
+import First from "./animations/first";
 
 const CustomDrawerContentComponent = props => (
   <View style={{ flex: 1, backgroundColor: "#a3a199" }}>
@@ -43,15 +44,18 @@ const MyDrawerNavigator = createDrawerNavigator(
     FlingGesture: {
       screen: FlingGesture
     },
-    SwipeableList: {
-      screen: SwipeableList
-    },
+    // SwipeableList: {
+    //   screen: SwipeableList
+    // },
     DrawerLayoutExample: {
       screen: DrawerLayoutExample
-    }
+    },
     // ImageViewerExample: {
     //   screen: ImageViewerExample
     // },
+    First: {
+      screen: First
+    }
   },
   {
     initialRouteName: "Home",

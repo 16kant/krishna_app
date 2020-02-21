@@ -138,7 +138,6 @@ export default FlingGesture = () => {
   const translateY = new Animated.Value(0);
 
   const onLeftFling = ({ nativeEvent }, offset) => {
-    console.log(nativeEvent);
     if (nativeEvent.oldState === State.ACTIVE) {
       Animated.spring(translateX, {
         toValue: translateX._value + offset

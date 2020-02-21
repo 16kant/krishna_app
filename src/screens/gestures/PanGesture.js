@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Animated, StyleSheet, View } from "react-native";
 import { PanGestureHandler, State } from "react-native-gesture-handler";
+import Icon from "react-native-vector-icons/Foundation";
 
 const DraggableBox = props => {
   const translateX = new Animated.Value(0);

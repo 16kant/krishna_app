@@ -4,7 +4,7 @@ import {
   isValidPassword,
   isValidConfirmPassword,
   checkEmpty
-} from "./../../utilities/validations";
+} from "./../../utils/validations";
 import { isString } from "lodash";
 
 export default class Register extends Component {
@@ -45,7 +45,7 @@ export default class Register extends Component {
     this.changeText(value, name);
   };
 
-  onSubmit = () => {}
+  onSubmit = () => {};
 
   validateAllFields = () => {
     let fullname = checkEmpty(this.state.user.fullname);

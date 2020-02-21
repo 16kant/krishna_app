@@ -8,11 +8,13 @@ import Home from "./home";
 import PanTest2 from "./panTest2";
 import PanTest from "./panTest";
 import MyDrawerNavigator from "./drawerNavigator";
+import SwipeableList from "./gestures/SwipeableList";
 
 const BottomTabNavigator = createBottomTabNavigator(
   {
     Home: { screen: MyDrawerNavigator },
-    PanTest: { screen: PanTest },
+    Todos: { screen: SwipeableList },
+    // PanTest: { screen: PanTest },
     PanTest2: { screen: PanTest2 }
   },
   {
@@ -24,7 +26,7 @@ const BottomTabNavigator = createBottomTabNavigator(
           iconName = `home`;
         }
         return (
-          <MaterialCommunityIcons name={iconName} size={30} color={tintColor} />
+          <MaterialCommunityIcons name={iconName} size={28} color={tintColor} />
         );
       }
     }),

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { isValidEmail, checkEmpty } from "./../../utilities/validations";
+import { isValidEmail, checkEmpty } from "./../../utils/validations";
 import { isString } from "lodash";
 import AsyncStorage from "@react-native-community/async-storage";
-import callApi from "../../utilities/apiCaller";
+import callApi from "../../utils/apiCaller";
 
 export default class Login extends Component {
   constructor(props) {

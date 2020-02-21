@@ -1,19 +1,23 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { StyleSheet, Text, I18nManager } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
 export default SwipeableRow = props => {
+  const [deleted, setDeleted] = useState(false);
   const swipeableRowRef = useRef();
+  const { item, dispatch } = props;
   const renderLeftActions = (progress, dragX) => {
     return (
       <RectButton style={styles.leftAction} onPress={close}>
-        <Text style={[styles.actionText]}>Archive</Text>
+        <Text style={[styles.actionText]}>
+          {item.complete ? "Unmark" : "Mark"}
+        </Text>
       </RectButton>
     );
   };
   const renderRightActions = (progress, dragX) => {
-    return (
+    return deleted ? null : (
       <RectButton style={styles.rightAction} onPress={close}>
         <Text style={[styles.actionText]}>Delete</Text>
       </RectButton>
@@ -23,14 +27,28 @@ export default SwipeableRow = props => {
     swipeableRowRef.current.close();
   };
 
+  const onSwipeableLeftWillOpen = () => {
+    close();
+    dispatch({ type: "TOOGLE_TODO", payload: item });
+  };
+
+  const onSwipeableRightWillOpen = () => {
+    setDeleted(true);
+    // close();
+    dispatch({ type: "DELETE_TODO", payload: item });
+  };
+
   return (
     <Swipeable
       ref={swipeableRowRef}
-      friction={2}
-      leftThreshold={80}
-      rightThreshold={40}
+      friction={1}
+      overshootLeft={false}
+      leftThreshold={140}
+      rightThreshold={140}
       renderLeftActions={renderLeftActions}
       renderRightActions={renderRightActions}
+      onSwipeableLeftWillOpen={onSwipeableLeftWillOpen}
+      onSwipeableRightOpen={onSwipeableRightWillOpen}
     >
       {props.children}
     </Swipeable>
@@ -39,7 +57,7 @@ export default SwipeableRow = props => {
 
 const styles = StyleSheet.create({
   leftAction: {
-    flex: 1,
+    width: "24%",
     backgroundColor: "#388e3c",
     justifyContent: "flex-end",
     alignItems: "center",

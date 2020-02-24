@@ -4,11 +4,15 @@ import {
   Text,
   View,
   TextInput,
-  TouchableHighlight,
   Animated,
-  Dimensions
+  Dimensions,
+  ScrollView,
+  FlatList,
+  Keyboard,
+  SafeAreaView
 } from "react-native";
-import { FlatList, RectButton } from "react-native-gesture-handler";
+// import Animated from 'react-native-reanimated'
+import { RectButton, BorderlessButton } from "react-native-gesture-handler";
 import SwipeableRow from "./SwipeableRow";
 import TodosContext from "../../utils/context";
 import Foundation from "react-native-vector-icons/Foundation";
@@ -17,27 +21,55 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 export default SwipeableList = props => {
   const { state, dispatch } = useContext(TodosContext);
   const [expanded, setExpanded] = useState(false);
+  const [currentTodo, setCurrentTodo] = useState({});
   const [scale] = useState(new Animated.Value(0));
-  const inputRef = useRef();
+  const listRef = useRef();
   const { width } = Dimensions.get("screen");
 
   useEffect(() => {
-    if (expanded) {
-      Animated.timing(scale, {
-        toValue: 1,
-        duration: 200
-      }).start();
-      inputRef.current.focus();
-    } else {
-      Animated.timing(scale, {
-        toValue: 0,
-        duration: 200
-      }).start();
-    }
+    expanded
+      ? Animated.spring(scale, {
+          toValue: 1
+        }).start()
+      : Animated.spring(scale, {
+          toValue: 0
+        }).start();
   }, [expanded]);
 
-  const handleSubmit = ({ nativeEvent }) => {
+  useEffect(() => {
+    const keyboardShowListner = Keyboard.addListener(
+      "keyboardWillShow",
+      keyboardDidShow
+    );
+
+    return () => {
+      keyboardShowListner.remove();
+    };
+  }, []);
+
+  const keyboardDidShow = () => {
+    console.log("current>>>", listRef.current.scrollToIndex);
+    // if (currentTodo.id) {
+    // const index = state.todos.findIndex(t => t.id === currentTodo.id);
+    // listRef.current.scrollToIndex({ index: 7 });
+    // }
+  };
+
+  const addTodo = ({ nativeEvent }) => {
+    setExpanded(false);
     dispatch({ type: "ADD_TODO", payload: nativeEvent.text });
+  };
+
+  const updateTodo = ({ nativeEvent }) => {
+    dispatch({
+      type: "UPDATE_TODO",
+      payload: { id: currentTodo.id, text: nativeEvent.text }
+    });
+    setCurrentTodo({});
+  };
+
+  const onEdit = item => {
+    setCurrentTodo(item);
   };
 
   const InputField = () => (
@@ -60,18 +92,6 @@ export default SwipeableList = props => {
           elevation: 10
         },
         {
-          // opacity: scale.interpolate({
-          //   inputRange: [0, 1],
-          //   outputRange: [0, 1]
-          // }),
-          // transform: [
-          //   {
-          //     scale: scale.interpolate({
-          //       inputRange: [0, 1],
-          //       outputRange: [0, 1]
-          //     })
-          //   }
-          // ]
           width: scale.interpolate({
             inputRange: [0, 1],
             outputRange: [60, width - 30]
@@ -81,41 +101,22 @@ export default SwipeableList = props => {
     >
       {expanded && (
         <TextInput
-          ref={inputRef}
           placeholder={"Add TODO"}
-          onSubmitEditing={handleSubmit}
+          onSubmitEditing={addTodo}
+          autoFocus={true}
           style={{ fontSize: 18, flex: 1, marginRight: 45, marginLeft: 15 }}
         />
       )}
-      {/* <TouchableOpacity onPress={() => setExpanded(!expanded)}>
-        <Icon name={"close"} size={25} color={"#777"} />
-      </TouchableOpacity> */}
     </Animated.View>
   );
 
   const AddButton = () => {
-    const AnimatedButton = Animated.createAnimatedComponent(TouchableHighlight);
+    const AnimatedButton = Animated.createAnimatedComponent(BorderlessButton);
     return (
       <AnimatedButton
         style={[
+          styles.addButton,
           {
-            position: "absolute",
-            top: 20,
-            right: 15,
-            flexDirection: "row",
-            width: 60,
-            alignSelf: "flex-end",
-            alignItems: "center",
-            justifyContent: "center",
-            height: 60,
-            borderRadius: 30,
-            elevation: 10
-          },
-          {
-            // opacity: scale.interpolate({
-            //   inputRange: [0, 1],
-            //   outputRange: [1, 0]
-            // }),
             transform: [
               {
                 rotate: scale.interpolate({
@@ -150,22 +151,45 @@ export default SwipeableList = props => {
     </RectButton>
   );
 
+  const EditBox = ({ item }) => (
+    <View style={styles.editBox}>
+      <TextInput
+        onSubmitEditing={updateTodo}
+        selectTextOnFocus={true}
+        autoFocus={true}
+        style={{ fontSize: 18, flex: 1, marginRight: 15 }}
+      />
+      <BorderlessButton onPress={() => setCurrentTodo({})}>
+        <Icon name={"clear"} size={28} color={"#f00"} />
+      </BorderlessButton>
+    </View>
+  );
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      {/* <ScrollView> */}
       <FlatList
-        style={{ flex: 1 }}
+        style={{ flex: 1, backgroundColor: "red" }}
         data={state.todos}
+        ref={listRef}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-        renderItem={({ item, index }) => (
-          <SwipeableRow dispatch={dispatch} item={item}>
-            <Row item={item} />
-          </SwipeableRow>
-        )}
+        renderItem={
+          ({ item, index }) => <EditBox item={item} />
+
+          // currentTodo.id === item.id ? (
+          //     <EditBox item={item} />
+          // ) : (
+          //     <SwipeableRow dispatch={dispatch} item={item} onEdit={onEdit}>
+          //       <Row item={item} />
+          //     </SwipeableRow>
+          // )
+        }
         keyExtractor={(item, index) => `message ${index}`}
       />
+      {/* </ScrollView> */}
       <InputField />
       <AddButton />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -211,5 +235,30 @@ const styles = StyleSheet.create({
     top: 10,
     color: "#999",
     fontWeight: "bold"
+  },
+  editBox: {
+    flex: 1,
+    flexDirection: "row",
+    height: 50,
+    paddingHorizontal: 15,
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    borderWidth: 2,
+    elevation: 4,
+    borderColor: "rgba(255,0,0,0.5)",
+    alignItems: "center"
+  },
+  addButton: {
+    position: "absolute",
+    top: 20,
+    right: 15,
+    flexDirection: "row",
+    width: 60,
+    alignSelf: "flex-end",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 60,
+    borderRadius: 30,
+    elevation: 10
   }
 });

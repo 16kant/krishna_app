@@ -1,40 +1,58 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, Text, I18nManager } from "react-native";
+import { StyleSheet, Text, I18nManager, View } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
 export default SwipeableRow = props => {
   const [deleted, setDeleted] = useState(false);
   const swipeableRowRef = useRef();
-  const { item, dispatch } = props;
+  const { item, dispatch, onEdit } = props;
   const renderLeftActions = (progress, dragX) => {
     return (
-      <RectButton style={styles.leftAction} onPress={close}>
-        <Text style={[styles.actionText]}>
-          {item.complete ? "Unmark" : "Mark"}
-        </Text>
-      </RectButton>
+      <View style={styles.leftActions}>
+        {renderLeftAction({
+          text: "status",
+          color: "#097507",
+          onPress: onToggle
+        })}
+        {renderLeftAction({
+          text: "Edit",
+          color: "#f5b042",
+          onPress: () => onEdit(item)
+        })}
+      </View>
     );
   };
   const renderRightActions = (progress, dragX) => {
     return deleted ? null : (
-      <RectButton style={styles.rightAction} onPress={close}>
+      <RectButton style={styles.rightActions} onPress={close}>
         <Text style={[styles.actionText]}>Delete</Text>
       </RectButton>
     );
   };
-  const close = () => {
-    swipeableRowRef.current.close();
+  const renderLeftAction = ({ text, color, onPress }) => {
+    if (text === "status") {
+      text = item.complete ? "Unmark" : "Mark";
+    }
+    return (
+      <RectButton
+        style={[styles.leftAction, { backgroundColor: color }]}
+        onPress={onPress}
+      >
+        <Text style={[styles.actionText]}>{text}</Text>
+      </RectButton>
+    );
   };
 
-  const onSwipeableLeftWillOpen = () => {
-    close();
+  const onToggle = () => {
+    swipeableRowRef.current.close();
     dispatch({ type: "TOOGLE_TODO", payload: item });
   };
 
+  const close = () => swipeableRowRef.current.close();
+
   const onSwipeableRightWillOpen = () => {
     setDeleted(true);
-    // close();
     dispatch({ type: "DELETE_TODO", payload: item });
   };
 
@@ -43,12 +61,12 @@ export default SwipeableRow = props => {
       ref={swipeableRowRef}
       friction={1}
       overshootLeft={false}
-      leftThreshold={140}
-      rightThreshold={140}
+      leftThreshold={60}
+      rightThreshold={80}
       renderLeftActions={renderLeftActions}
       renderRightActions={renderRightActions}
-      onSwipeableLeftWillOpen={onSwipeableLeftWillOpen}
       onSwipeableRightOpen={onSwipeableRightWillOpen}
+      onSwipeableWillClose={() => setDeleted(false)}
     >
       {props.children}
     </Swipeable>
@@ -56,24 +74,31 @@ export default SwipeableRow = props => {
 };
 
 const styles = StyleSheet.create({
-  leftAction: {
-    width: "24%",
-    backgroundColor: "#388e3c",
-    justifyContent: "flex-end",
+  leftActions: {
+    width: "45%",
+    backgroundColor: "#fff",
+    justifyContent: "flex-start",
     alignItems: "center",
-    flexDirection: I18nManager.isRTL ? "row" : "row-reverse"
+    flexDirection: "row"
   },
-  rightAction: {
+  rightActions: {
     flex: 1,
     backgroundColor: "#dd2c00",
     justifyContent: "flex-end",
     alignItems: "center",
-    flexDirection: I18nManager.isRTL ? "row-reverse" : "row"
+    flexDirection: "row"
   },
   actionText: {
     color: "white",
     fontSize: 16,
     backgroundColor: "transparent",
     padding: 10
+  },
+  leftAction: {
+    width: "50%",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    height: "100%"
   }
 });

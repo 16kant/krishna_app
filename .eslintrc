@@ -16,15 +16,15 @@
       "error",
       {
         "vars": "all",
-        "args": "after-used",
+        "args": "none",
         "ignoreRestSiblings": false
       }
-    ]
+    ],
+    "react-native/no-inline-styles": "off"
   },
   "env": {
     "browser": true,
     "es6": true,
     "jest/globals": true
-  },
-  "jsx-quotes": ["error", "prefer-single"]
+  }
 }

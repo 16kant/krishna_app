@@ -2,7 +2,6 @@ import { createSwitchNavigator, createAppContainer } from "react-navigation";
 import AuthLoadingScreen from "./authLoadingScreen";
 import AuthStack from "./authStack";
 import BottomTabNavigator from "./bottomTabNavigator";
-import MyDrawerNavigator from "./drawerNavigator";
 
 const SwitchNavigator = createSwitchNavigator(
   {

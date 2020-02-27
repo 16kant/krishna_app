@@ -1,29 +1,29 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   isValidEmail,
   isValidPassword,
   isValidConfirmPassword,
   checkEmpty
-} from "./../../utils/validations";
-import { isString } from "lodash";
+} from '../../../utils/validations';
+import {isString} from 'lodash';
 
 export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {
-        email: "",
-        username: "",
-        fullname: "",
-        password: "",
-        confirmPassword: ""
+        email: '',
+        username: '',
+        fullname: '',
+        password: '',
+        confirmPassword: ''
       },
       error: {
-        fullnameError: "",
-        usernameError: "",
-        emailError: "",
-        passwordError: "",
-        confirmPasswordError: ""
+        fullnameError: '',
+        usernameError: '',
+        emailError: '',
+        passwordError: '',
+        confirmPasswordError: ''
       }
     };
   }
@@ -34,12 +34,12 @@ export default class Register extends Component {
   };
 
   emptyErrorField = field => {
-    this.state.error[field] = "";
+    this.state.error[field] = '';
     this.setState({});
   };
 
   handleChange = (value, name, errorField) => {
-    if (this.state.error[errorField] !== "") {
+    if (this.state.error[errorField] !== '') {
       this.emptyErrorField(errorField);
     }
     this.changeText(value, name);
@@ -49,13 +49,18 @@ export default class Register extends Component {
 
   validateAllFields = () => {
     let fullname = checkEmpty(this.state.user.fullname);
+
     let username = checkEmpty(this.state.user.username);
-    let email = isValidEmail(this.state.user.email.trim().toLowerCase());
-    let password = isValidPassword(this.state.user.password);
-    let confirmPassword = isValidConfirmPassword(
+
+    const email = isValidEmail(this.state.user.email.trim().toLowerCase());
+
+    const password = isValidPassword(this.state.user.password);
+
+    const confirmPassword = isValidConfirmPassword(
       this.state.user.password,
       this.state.user.confirmPassword
     );
+
     if (
       fullname === true &&
       username === true &&
@@ -65,8 +70,8 @@ export default class Register extends Component {
     ) {
       return true;
     }
-    fullname = isString(fullname) && fullname.replace("{{Field}}", "Full Name");
-    username = isString(username) && username.replace("{{Field}}", "User Name");
+    fullname = isString(fullname) && fullname.replace('{{Field}}', 'Full Name');
+    username = isString(username) && username.replace('{{Field}}', 'User Name');
     this.state.error.emailError = email.message;
     this.state.error.passwordError = password;
     this.state.error.confirmPasswordError = confirmPassword;

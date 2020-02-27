@@ -1,25 +1,24 @@
-import React, { useRef, useState, useCallback, cloneElement } from "react";
-import { StyleSheet, View, LayoutAnimation } from "react-native";
-import { RectButton } from "react-native-gesture-handler";
-import Swipeable from "react-native-gesture-handler/Swipeable";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import React, {useRef, useState, useCallback, cloneElement} from 'react';
+import {StyleSheet, View, LayoutAnimation} from 'react-native';
+import {RectButton} from 'react-native-gesture-handler';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const SwipeableRow = props => {
   const [deleted, setDeleted] = useState(false);
   const swipeableRowRef = useRef();
-  const { item, dispatch, onEdit, setCurrentTodo } = props;
+  const {item, dispatch, onEdit, setCurrentTodo} = props;
 
   const renderRightActions = (progress, dragX) => {
     return deleted ? null : (
       <RectButton
         style={styles.rightActions}
-        onPress={() => swipeableRowRef.current.close()}
-      >
+        onPress={() => swipeableRowRef.current.close()}>
         <Icon
-          name={"delete-forever"}
+          name={'delete-forever'}
           size={30}
-          color={"#fff"}
-          style={{ marginHorizontal: 10 }}
+          color={'#fff'}
+          style={{marginHorizontal: 10}}
         />
       </RectButton>
     );
@@ -29,13 +28,13 @@ const SwipeableRow = props => {
     return (
       <View style={styles.leftActions}>
         {renderLeftAction({
-          icon: "status",
-          color: "#86888a",
+          icon: 'status',
+          color: '#86888a',
           onPress: onToggle
         })}
         {renderLeftAction({
-          icon: "edit",
-          color: "#0a64ad",
+          icon: 'edit',
+          color: '#0a64ad',
           onPress: () => {
             swipeableRowRef.current.close();
             onEdit(item);
@@ -45,20 +44,19 @@ const SwipeableRow = props => {
     );
   };
 
-  const renderLeftAction = ({ icon, color, onPress }) => {
-    if (icon === "status") {
-      icon = item.complete ? "cancel" : "check-circle";
+  const renderLeftAction = ({icon, color, onPress}) => {
+    if (icon === 'status') {
+      icon = item.complete ? 'cancel' : 'check-circle';
     }
     return (
       <RectButton
-        style={[styles.leftAction, { backgroundColor: color }]}
-        onPress={onPress}
-      >
+        style={[styles.leftAction, {backgroundColor: color}]}
+        onPress={onPress}>
         <Icon
           name={icon}
           size={30}
-          color={"#fff"}
-          style={{ marginHorizontal: 10 }}
+          color={'#fff'}
+          style={{marginHorizontal: 10}}
         />
       </RectButton>
     );
@@ -66,8 +64,8 @@ const SwipeableRow = props => {
 
   const onToggle = useCallback(() => {
     swipeableRowRef.current.close();
-    dispatch({ type: "TOOGLE_TODO", payload: item });
-  }, [swipeableRowRef]);
+    dispatch({type: 'TOOGLE_TODO', payload: item});
+  }, [dispatch, item]);
 
   const onSwipeableRightOpen = useCallback(() => {
     LayoutAnimation.configureNext(
@@ -78,8 +76,8 @@ const SwipeableRow = props => {
       )
     );
     setDeleted(true);
-    dispatch({ type: "DELETE_TODO", payload: item });
-  }, []);
+    dispatch({type: 'DELETE_TODO', payload: item});
+  }, [dispatch, item]);
 
   return (
     <Swipeable
@@ -91,8 +89,7 @@ const SwipeableRow = props => {
       renderLeftActions={renderLeftActions}
       renderRightActions={renderRightActions}
       onSwipeableRightOpen={onSwipeableRightOpen}
-      onSwipeableLeftOpen={() => setCurrentTodo(item)}
-    >
+      onSwipeableLeftOpen={() => setCurrentTodo(item)}>
       {cloneElement(props.children, {
         openLeft: () => swipeableRowRef.current.openLeft(),
         close: () => swipeableRowRef.current.close()
@@ -104,24 +101,24 @@ const SwipeableRow = props => {
 const styles = StyleSheet.create({
   rightActions: {
     flex: 1,
-    backgroundColor: "#dd2c00",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    flexDirection: "row"
+    backgroundColor: '#dd2c00',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    flexDirection: 'row'
   },
   leftActions: {
-    width: "38%",
-    backgroundColor: "#fff",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    flexDirection: "row"
+    width: '38%',
+    backgroundColor: '#fff',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row'
   },
   leftAction: {
-    width: "50%",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    height: "100%"
+    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: '100%'
   }
 });
 

@@ -3,9 +3,8 @@ import React, {
   useState,
   useEffect,
   useCallback,
-  useRef,
-  useLayoutEffect
-} from "react";
+  useRef
+} from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,19 +12,18 @@ import {
   TextInput,
   Animated,
   Dimensions,
-  FlatList,
-  LayoutAnimation
-} from "react-native";
-import { RectButton, BorderlessButton } from "react-native-gesture-handler";
-import SwipeableRow from "./SwipeableRow";
-import TodosContext from "../../utils/context";
-import Foundation from "react-native-vector-icons/Foundation";
-import Icon from "react-native-vector-icons/MaterialIcons";
+  FlatList
+} from 'react-native';
+import {RectButton, BorderlessButton} from 'react-native-gesture-handler';
+import SwipeableRow from './SwipeableRow';
+import TodosContext from '../../../utils/context';
+import Foundation from 'react-native-vector-icons/Foundation';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const { width } = Dimensions.get("screen");
+const {width} = Dimensions.get('screen');
 
 const SwipeableList = props => {
-  const { state, dispatch } = useContext(TodosContext);
+  const {state, dispatch} = useContext(TodosContext);
   const [expanded, setExpanded] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
   const [scale] = useState(new Animated.Value(0));
@@ -36,14 +34,15 @@ const SwipeableList = props => {
       bounciness: 0,
       toValue: expanded ? 1 : 0
     }).start();
-  }, [expanded]);
+  }, [expanded, scale]);
 
   const handleSubmit = useCallback(() => {
     setExpanded(false);
     const text = inputRef?.current?._lastNativeText;
+
     if (currentTodo) {
       dispatch({
-        type: "UPDATE_TODO",
+        type: 'UPDATE_TODO',
         payload: {
           id: currentTodo.id,
           text: text
@@ -51,19 +50,19 @@ const SwipeableList = props => {
       });
       setCurrentTodo(null);
     } else {
-      dispatch({ type: "ADD_TODO", payload: text });
+      dispatch({type: 'ADD_TODO', payload: text});
     }
-  }, [currentTodo]);
+  }, [currentTodo, dispatch]);
 
   const onAdd = useCallback(() => {
     setExpanded(!expanded);
     setCurrentTodo(null);
   }, [expanded]);
 
-  const Row = ({ item, index, openLeft, close }) => {
+  const Row = ({item, openLeft, close}) => {
     useEffect(() => {
       currentTodo?.id !== item.id && close();
-    }, [currentTodo]);
+    }, [close, item.id]);
 
     return (
       <RectButton style={styles.rectButton} onPress={openLeft}>
@@ -71,12 +70,11 @@ const SwipeableList = props => {
           style={[
             styles.todoText,
             item.complete && {
-              textDecorationLine: "line-through",
-              color: "#888"
+              textDecorationLine: 'line-through',
+              color: '#888'
             }
-          ]}
-        >
-          {index} {item.text}
+          ]}>
+          {item.text}
         </Text>
       </RectButton>
     );
@@ -85,17 +83,16 @@ const SwipeableList = props => {
   return (
     <View style={styles.container}>
       <FlatList
-        style={{ flex: 1 }}
+        style={{flex: 1}}
         data={state.todos}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-        renderItem={({ item, index }) => (
+        renderItem={({item, index}) => (
           <SwipeableRow
             dispatch={dispatch}
             item={item}
             onEdit={() => setExpanded(true)}
-            setCurrentTodo={setCurrentTodo}
-          >
-            <Row item={item} index={index} />
+            setCurrentTodo={setCurrentTodo}>
+            <Row item={item} />
           </SwipeableRow>
         )}
         keyExtractor={(item, index) => `${item.id}`}
@@ -109,8 +106,7 @@ const SwipeableList = props => {
               outputRange: [60, width - 30]
             })
           }
-        ]}
-      >
+        ]}>
         {expanded && (
           <>
             <TextInput
@@ -118,9 +114,9 @@ const SwipeableList = props => {
               ref={inputRef}
               selectTextOnFocus={true}
               onSubmitEditing={handleSubmit}
-              placeholder={currentTodo ? "" : "Add TODO"}
-              defaultValue={currentTodo ? currentTodo.text : ""}
-              style={{ fontSize: 18, flex: 1, marginLeft: 15 }}
+              placeholder={currentTodo ? '' : 'Add TODO'}
+              defaultValue={currentTodo ? currentTodo.text : ''}
+              style={{fontSize: 18, flex: 1, marginLeft: 15}}
             />
             <BorderlessButton
               onPress={handleSubmit}
@@ -137,9 +133,8 @@ const SwipeableList = props => {
                   inputRange: [0, 1],
                   outputRange: [0, 1]
                 })
-              }}
-            >
-              <Icon name={"check"} size={28} color={"rgba(0,0,255,0.5)"} />
+              }}>
+              <Icon name={'check'} size={28} color={'rgba(0,0,255,0.5)'} />
             </BorderlessButton>
           </>
         )}
@@ -152,14 +147,13 @@ const SwipeableList = props => {
                 {
                   rotate: scale.interpolate({
                     inputRange: [0, 1],
-                    outputRange: ["0deg", "-45deg"]
+                    outputRange: ['0deg', '-45deg']
                   })
                 }
               ]
             }
-          ]}
-        >
-          <Icon name={"add"} size={30} color={"rgba(255,0,0,0.5)"} />
+          ]}>
+          <Icon name={'add'} size={30} color={'rgba(255,0,0,0.5)'} />
         </BorderlessButton>
       </Animated.View>
     </View>
@@ -167,54 +161,54 @@ const SwipeableList = props => {
 };
 
 SwipeableList.navigationOptions = {
-  tabBarIcon: ({ focused, tintColor }) => {
-    return <Foundation name={"clipboard-notes"} size={28} color={tintColor} />;
+  tabBarIcon: ({focused, tintColor}) => {
+    return <Foundation name={'clipboard-notes'} size={28} color={tintColor} />;
   }
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#222"
+    backgroundColor: '#222'
   },
   rectButton: {
     flex: 1,
     height: 60,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    justifyContent: "center",
-    flexDirection: "column",
-    backgroundColor: "#222",
-    alignItems: "center"
+    justifyContent: 'center',
+    flexDirection: 'column',
+    backgroundColor: '#222',
+    alignItems: 'center'
   },
   separator: {
-    backgroundColor: "rgb(200, 199, 204)",
+    backgroundColor: 'rgb(200, 199, 204)',
     height: StyleSheet.hairlineWidth
   },
   todoText: {
-    fontWeight: "bold",
-    backgroundColor: "transparent",
+    fontWeight: 'bold',
+    backgroundColor: 'transparent',
     letterSpacing: 1.5,
-    color: "#fff"
+    color: '#fff'
   },
   addButton: {
     width: 52,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   inputField: {
-    position: "absolute",
+    position: 'absolute',
     top: 20,
     right: 15,
-    flexDirection: "row",
-    backgroundColor: "rgba(255,255,255,0.9)",
-    alignSelf: "center",
-    justifyContent: "flex-end",
-    alignItems: "center",
+    flexDirection: 'row',
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    alignSelf: 'center',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
     height: 60,
     width: 60,
     borderWidth: 4,
-    borderColor: "rgba(255,0,0,0.5)",
+    borderColor: 'rgba(255,0,0,0.5)',
     borderRadius: 30,
     elevation: 10
   }

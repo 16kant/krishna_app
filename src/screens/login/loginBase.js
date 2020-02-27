@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import { isValidEmail, checkEmpty } from "./../../utils/validations";
-import { isString } from "lodash";
-import AsyncStorage from "@react-native-community/async-storage";
-import callApi from "../../utils/apiCaller";
+import React, {Component} from 'react';
+import {isValidEmail, checkEmpty} from '../../../utils/validations';
+import {isString} from 'lodash';
+import AsyncStorage from '@react-native-community/async-storage';
+import callApi from '../../../utils/apiCaller';
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {
-        email: "",
-        password: ""
+        email: '',
+        password: ''
       },
       error: {
-        emailError: "",
-        passwordError: ""
+        emailError: '',
+        passwordError: ''
       }
     };
   }
@@ -25,24 +25,26 @@ export default class Login extends Component {
   };
 
   emptyErrorField = field => {
-    this.state.error[field] = "";
+    this.state.error[field] = '';
     this.setState({});
   };
 
   handleChange = (value, name, errorField) => {
-    if (this.state.error[errorField] !== "") {
+    if (this.state.error[errorField] !== '') {
       this.emptyErrorField(errorField);
     }
     this.changeText(value, name);
   };
 
   validateAllFields = () => {
-    let email = isValidEmail(this.state.user.email.trim().toLowerCase());
+    const email = isValidEmail(this.state.user.email.trim().toLowerCase());
+
     let password = checkEmpty(this.state.user.password);
+
     if (email.valid === true && password === true) {
       return true;
     }
-    password = isString(password) && password.replace("{{Field}}", "Password");
+    password = isString(password) && password.replace('{{Field}}', 'Password');
     this.state.error.emailError = email.message;
     this.state.error.passwordError = password;
     this.setState({});
@@ -50,8 +52,8 @@ export default class Login extends Component {
   };
 
   onSubmit = async () => {
-    await AsyncStorage.setItem("userToken", "abc");
-    this.props.navigation.navigate("AppStack");
+    await AsyncStorage.setItem('userToken', 'abc');
+    this.props.navigation.navigate('AppStack');
     // if (this.validateAllFields()) {
     //   callApi()
     //     .then(response => console.warn("callapi response", response))

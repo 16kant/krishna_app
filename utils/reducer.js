@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 export default (state, action) => {
   switch (action.type) {
     case "ADD_TODO": {
@@ -9,7 +11,7 @@ export default (state, action) => {
       )
         return state;
       const newTodo = {
-        id: state.todos.length,
+        id: uuidv4(),
         text: action.payload,
         complete: false
       };

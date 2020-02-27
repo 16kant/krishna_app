@@ -1,8 +1,8 @@
 import React, {useContext, useReducer} from 'react';
 import {StatusBar, View, UIManager, Platform} from 'react-native';
 // import {Provider} from 'react-redux';
-// import store from './src/redux';
-import SwitchNavigator from './src/screens/switchNavigator';
+// import store from './redux';
+import SwitchNavigator from './navigators/switchNavigator';
 import AppContext from './utils/context';
 import reducer from './utils/reducer';
 

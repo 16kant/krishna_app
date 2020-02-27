@@ -1,6 +1,7 @@
 import axios from 'axios';
-import config from '../config';
 import {isEmpty} from 'lodash';
+
+import config from '../config';
 
 const callApi = async (
   method = 'get',

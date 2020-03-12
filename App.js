@@ -21,7 +21,7 @@ const App = () => {
     // <Provider store={store}>
     <AppContext.Provider value={{state, dispatch}}>
       <View style={{flex: 1}}>
-        <StatusBar translucent={false} backgroundColor="black" />
+        <StatusBar translucent={true} backgroundColor="transparent" />
         <SwitchNavigator />
       </View>
     </AppContext.Provider>

@@ -1,12 +1,13 @@
 import {createStackNavigator} from 'react-navigation-stack';
 
-import Login from './login/login';
+// import Login from './login/login';
 import Register from './register/register';
+import GoogleLogin from './googleLogin';
 
 const AuthStack = createStackNavigator(
   {
     Login: {
-      screen: Login,
+      screen: GoogleLogin,
       navigationOptions: {
         header: null
       }

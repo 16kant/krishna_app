@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "56813252820",
+    "firebase_url": "https://krishna-7e3ca.firebaseio.com",
+    "project_id": "krishna-7e3ca",
+    "storage_bucket": "krishna-7e3ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56813252820:android:3b27e69dd8f7d458708b41",
+        "android_client_info": {
+          "package_name": "com.krishna_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "56813252820-bjc80s1t6ovksm7c38cuueltqt8cks0k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.krishna_app",
+            "certificate_hash": "f7dc80a67f9a16949907a1c69a69d194b6c1bed3"
+          }
+        },
+        {
+          "client_id": "56813252820-t76vunbrgq1s0c2fq739t7rtfo6v9cut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdWsGQyEwHfWuB1RK4Qrmap_DTOHqRu6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "56813252820-t76vunbrgq1s0c2fq739t7rtfo6v9cut.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

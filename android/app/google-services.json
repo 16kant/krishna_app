@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "56813252820-vpj7ht7mtv4s4l3uudg9mlfh525ghsus.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.krishna_app",
+            "certificate_hash": "720c95cc149652fcd909074418f48783e6c75f21"
+          }
+        },
+        {
           "client_id": "56813252820-bjc80s1t6ovksm7c38cuueltqt8cks0k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -29,7 +37,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAdWsGQyEwHfWuB1RK4Qrmap_DTOHqRu6k"
+          "current_key": "AIzaSyD6euJPWMG4BkaS4ecM3AkvankhaiJjZZ4"
         }
       ],
       "services": {

@@ -19,38 +19,35 @@ const GoogleLogin = props => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    GoogleSignin.configure({
-      webClientId:
-        '56813252820-t76vunbrgq1s0c2fq739t7rtfo6v9cut.apps.googleusercontent.com'
-    });
-    const getCurrentUserInfo = async () => {
-      try {
-        const userInfo = await GoogleSignin.signInSilently();
+    GoogleSignin.configure();
+    // const getCurrentUserInfo = async () => {
+    //   try {
+    //     const userInfo = await GoogleSignin.signInSilently();
 
-        console.log('useEffect userInfo>>>>>', userInfo);
+    //     console.log('useEffect userInfo>>>>>', userInfo);
 
-        setUser(userInfo);
-        setLoggedIn(true);
-        // this.setState({userInfo});
-      } catch (error) {
-        if (error.code === statusCodes.SIGN_IN_REQUIRED) {
-          // user has not signed in yet
-          console.log('SIGN_IN_REQUIRED');
+    //     setUser(userInfo);
+    //     setLoggedIn(true);
+    //     // this.setState({userInfo});
+    //   } catch (error) {
+    //     if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+    //       // user has not signed in yet
+    //       console.log('SIGN_IN_REQUIRED');
 
-          setLoggedIn(false);
+    //       setLoggedIn(false);
 
-          // this.setState({loggedIn: false});
-        } else {
-          console.log('some other error');
+    //       // this.setState({loggedIn: false});
+    //     } else {
+    //       console.log('some other error');
 
-          // some other error
-          setLoggedIn(false);
-          // this.setState({loggedIn: false});
-        }
-      }
-    };
+    //       // some other error
+    //       setLoggedIn(false);
+    //       // this.setState({loggedIn: false});
+    //     }
+    //   }
+    // };
 
-    getCurrentUserInfo();
+    // getCurrentUserInfo();
   }, []);
 
   const signIn = async () => {
@@ -59,10 +56,10 @@ const GoogleLogin = props => {
       await GoogleSignin.hasPlayServices();
 
       const userInfo = await GoogleSignin.signIn();
+      console.log('signIn userInfo>>>>>', userInfo);
 
       setUser(userInfo);
       setLoggedIn(true);
-      console.log('signIn userInfo>>>>>', userInfo);
       // this.setState({userInfo: userInfo, loggedIn: true});
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -77,23 +74,23 @@ const GoogleLogin = props => {
 
         // play services not available or outdated
       } else {
-        console.log('some other errror>>>>', error);
+        console.log('some other errror>>>>', error, error.code);
         // some other error happened
       }
     }
   };
 
-  const signOut = async () => {
-    try {
-      await GoogleSignin.revokeAccess();
-      await GoogleSignin.signOut();
-      setUser(null);
-      setLoggedIn(false);
-      // this.setState({ user: null, loggedIn: false }); // Remember to remove the user from your app's state as well
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const signOut = async () => {
+  //   try {
+  //     await GoogleSignin.revokeAccess();
+  //     await GoogleSignin.signOut();
+  //     setUser(null);
+  //     setLoggedIn(false);
+  //     // this.setState({ user: null, loggedIn: false }); // Remember to remove the user from your app's state as well
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const logIn = async () => {
     await AsyncStorage.setItem('userToken', 'abc');

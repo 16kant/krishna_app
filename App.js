@@ -1,7 +1,7 @@
 import React, {useContext, useReducer, useEffect} from 'react';
 import {StatusBar, View, UIManager, Platform} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import messaging from '@react-native-firebase/messaging';
+import messaging, {firebase} from '@react-native-firebase/messaging';
 // import {Provider} from 'react-redux';
 // import store from './redux';
 import SwitchNavigator from './navigators/switchNavigator';
@@ -33,19 +33,37 @@ const App = () => {
       }
     }
     console.log('fcm Token>>>', fcmToken);
+    const notificationListener = firebase
+      .notifications()
+      .onNotification(notification => {
+        const {title, body} = notification;
+        showAlert(title, body);
+        return () => {
+          notificationListener;
+        };
+      });
   }, []);
 
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('FCM Message Data:', remoteMessage.data);
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
+  //     console.log('FCM Message Data:', remoteMessage.data);
 
-      // Update a users messages list using AsyncStorage
-      const currentMessages = await AsyncStorage.getItem('messages');
-      const messageArray = JSON.parse(currentMessages);
-      messageArray.push(remoteMessage.data);
-      await AsyncStorage.setItem('messages', JSON.stringify(messageArray));
-    });
-  });
+  //     // Update a users messages list using AsyncStorage
+  //     const currentMessages = await AsyncStorage.getItem('messages');
+  //     const messageArray = JSON.parse(currentMessages);
+  //     messageArray.push(remoteMessage.data);
+  //     await AsyncStorage.setItem('messages', JSON.stringify(messageArray));
+  //   });
+  // });
+
+  const showAlert = (title, body) => {
+    Alert.alert(
+      title,
+      body,
+      [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+      {cancelable: false}
+    );
+  };
 
   return (
     // <Provider store={store}>

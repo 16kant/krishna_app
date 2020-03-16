@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {
   Text,
   View,
@@ -12,42 +12,63 @@ import {GoogleSignin, statusCodes} from '@react-native-community/google-signin';
 
 import FormBackground from '../components/formBackground';
 import images from '../assets/images';
+import UserContext from '../utils/userContext';
 
 const GoogleLogin = props => {
+  const {userState, userDispatch} = useContext(UserContext);
   const height = Dimensions.get('window').height;
   const [user, setUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    GoogleSignin.configure();
-    // const getCurrentUserInfo = async () => {
-    //   try {
-    //     const userInfo = await GoogleSignin.signInSilently();
+    GoogleSignin.configure({
+      // scopes: ['https://www.googleapis.com/auth/drive.readonly']
+      webClientId:
+        '56813252820-t76vunbrgq1s0c2fq739t7rtfo6v9cut.apps.googleusercontent.com'
+      // offlineAccess: true
+    });
 
-    //     console.log('useEffect userInfo>>>>>', userInfo);
-
-    //     setUser(userInfo);
-    //     setLoggedIn(true);
-    //     // this.setState({userInfo});
-    //   } catch (error) {
-    //     if (error.code === statusCodes.SIGN_IN_REQUIRED) {
-    //       // user has not signed in yet
-    //       console.log('SIGN_IN_REQUIRED');
-
-    //       setLoggedIn(false);
-
-    //       // this.setState({loggedIn: false});
-    //     } else {
-    //       console.log('some other error');
-
-    //       // some other error
-    //       setLoggedIn(false);
-    //       // this.setState({loggedIn: false});
-    //     }
-    //   }
+    // const isSignedIn = async () => {
+    //   const signIn = await GoogleSignin.isSignedIn();
+    //   console.log('isSignin>>>>>', signIn);
     // };
+    // isSignedIn();
 
-    // getCurrentUserInfo();
+    // const getCurrentUser = async () => {
+    //   const currentUser = await GoogleSignin.getCurrentUser();
+    //   console.log('currentUser>>>', currentUser);
+    // };
+    // getCurrentUser();
+
+    const getCurrentUserInfo = async () => {
+      try {
+        const userInfo = await GoogleSignin.signInSilently();
+
+        userDispatch({type: 'GOOGLE_SIGNIN', payload: userInfo});
+        setUser(userInfo);
+        setLoggedIn(true);
+        props.navigation.navigate('AppStack');
+
+        // this.setState({userInfo});
+      } catch (error) {
+        if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+          // user has not signed in yet
+          console.log('SIGN_IN_REQUIRED');
+
+          setLoggedIn(false);
+
+          // this.setState({loggedIn: false});
+        } else {
+          console.log('some other error');
+
+          // some other error
+          setLoggedIn(false);
+          // this.setState({loggedIn: false});
+        }
+      }
+    };
+
+    getCurrentUserInfo();
   }, []);
 
   const signIn = async () => {
@@ -56,10 +77,14 @@ const GoogleLogin = props => {
       await GoogleSignin.hasPlayServices();
 
       const userInfo = await GoogleSignin.signIn();
-      console.log('signIn userInfo>>>>>', userInfo);
+      // console.log('signIn userInfo>>>>>', userInfo);
 
+      // console.log('userDispatch', krish);
+      userDispatch({type: 'GOOGLE_SIGNIN', payload: userInfo});
       setUser(userInfo);
       setLoggedIn(true);
+      props.navigation.navigate('AppStack');
+
       // this.setState({userInfo: userInfo, loggedIn: true});
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {

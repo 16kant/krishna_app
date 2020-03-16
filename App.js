@@ -23,38 +23,54 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [userState, userDispatch] = useReducer(userReducer, userInitialState);
 
-  useEffect(async () => {
-    let fcmToken = await AsyncStorage.getItem('fcmToken');
-    if (!fcmToken) {
-      fcmToken = await messaging().getToken();
-      if (fcmToken) {
-        // user has a device token
-        await AsyncStorage.setItem('fcmToken', fcmToken);
+  useEffect(() => {
+    const registerAppWithFCM = async () => {
+      await messaging().registerForRemoteNotifications();
+      console.log('registerAppWithFCM>>>');
+    };
+    registerAppWithFCM();
+
+    const requestPermission = () => {
+      const granted = messaging().requestPermission();
+      console.log('granted>>>', granted);
+    };
+    requestPermission();
+
+    const getToken = async () => {
+      let fcmToken = await AsyncStorage.getItem('fcmToken');
+      if (!fcmToken) {
+        fcmToken = await messaging().getToken();
+        if (fcmToken) {
+          // user has a device token
+          await AsyncStorage.setItem('fcmToken', fcmToken);
+        }
       }
-    }
-    console.log('fcm Token>>>', fcmToken);
-    const notificationListener = firebase
-      .notifications()
-      .onNotification(notification => {
-        const {title, body} = notification;
-        showAlert(title, body);
-        return () => {
-          notificationListener;
-        };
-      });
+      console.log('fcm Token>>>', fcmToken);
+    };
+    getToken();
+
+    // const notificationListener = firebase
+    //   .notifications()
+    //   .onNotification(notification => {
+    //     const {title, body} = notification;
+    //     showAlert(title, body);
+    //     return () => {
+    //       notificationListener;
+    //     };
+    //   });
   }, []);
 
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
-  //     console.log('FCM Message Data:', remoteMessage.data);
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('FCM Message Data:', remoteMessage.data);
 
-  //     // Update a users messages list using AsyncStorage
-  //     const currentMessages = await AsyncStorage.getItem('messages');
-  //     const messageArray = JSON.parse(currentMessages);
-  //     messageArray.push(remoteMessage.data);
-  //     await AsyncStorage.setItem('messages', JSON.stringify(messageArray));
-  //   });
-  // });
+      // Update a users messages list using AsyncStorage
+      // const currentMessages = await AsyncStorage.getItem('messages');
+      // const messageArray = JSON.parse(currentMessages);
+      // messageArray.push(remoteMessage.data);
+      // await AsyncStorage.setItem('messages', JSON.stringify(messageArray));
+    });
+  }, []);
 
   const showAlert = (title, body) => {
     Alert.alert(

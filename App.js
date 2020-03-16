@@ -1,5 +1,7 @@
-import React, {useContext, useReducer} from 'react';
+import React, {useContext, useReducer, useEffect} from 'react';
 import {StatusBar, View, UIManager, Platform} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import messaging from '@react-native-firebase/messaging';
 // import {Provider} from 'react-redux';
 // import store from './redux';
 import SwitchNavigator from './navigators/switchNavigator';
@@ -20,6 +22,30 @@ const App = () => {
   const userInitialState = useContext(UserContext);
   const [state, dispatch] = useReducer(reducer, initialState);
   const [userState, userDispatch] = useReducer(userReducer, userInitialState);
+
+  useEffect(async () => {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!fcmToken) {
+      fcmToken = await messaging().getToken();
+      if (fcmToken) {
+        // user has a device token
+        await AsyncStorage.setItem('fcmToken', fcmToken);
+      }
+    }
+    console.log('fcm Token>>>', fcmToken);
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('FCM Message Data:', remoteMessage.data);
+
+      // Update a users messages list using AsyncStorage
+      const currentMessages = await AsyncStorage.getItem('messages');
+      const messageArray = JSON.parse(currentMessages);
+      messageArray.push(remoteMessage.data);
+      await AsyncStorage.setItem('messages', JSON.stringify(messageArray));
+    });
+  });
 
   return (
     // <Provider store={store}>

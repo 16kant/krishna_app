@@ -15,19 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "56813252820-vpj7ht7mtv4s4l3uudg9mlfh525ghsus.apps.googleusercontent.com",
+          "client_id": "56813252820-6nsd735ov6000kbvr2jgoo77relq8bg0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.krishna_app",
-            "certificate_hash": "720c95cc149652fcd909074418f48783e6c75f21"
-          }
-        },
-        {
-          "client_id": "56813252820-bjc80s1t6ovksm7c38cuueltqt8cks0k.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.krishna_app",
-            "certificate_hash": "f7dc80a67f9a16949907a1c69a69d194b6c1bed3"
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {

@@ -17,7 +17,8 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const App = () => {
+const App = props => {
+  console.log('props>>>>>>', props.url);
   const initialState = useContext(AppContext);
   const userInitialState = useContext(UserContext);
   const [state, dispatch] = useReducer(reducer, initialState);

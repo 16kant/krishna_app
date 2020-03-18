@@ -4,9 +4,13 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
-import android.os.Bundle;
-import android.widget.Toast;
+
 import android.content.Intent;
+import android.os.Bundle;
+import android.net.Uri;
+
+import android.graphics.Bitmap;
+import java.io.InputStream;
 
 public class MainActivity extends ReactActivity {
 
@@ -26,13 +30,39 @@ public class MainActivity extends ReactActivity {
       protected ReactRootView createRootView() {
         return new RNGestureHandlerEnabledRootView(MainActivity.this);
       }
+      
       @Override
       protected Bundle getLaunchOptions() {
+        String value = "";
+        String type = "";
+        String action = "";
+
         Intent intent = MainActivity.this.getIntent();
+        
+        action = intent.getAction();
+        type = intent.getType();
+        if (type == null) {
+          type = "";
+        }
+        if (Intent.ACTION_SEND.equals(action) && "text/plain".equals(type)) {
+          value = intent.getStringExtra(Intent.EXTRA_TEXT);
+        } else if (Intent.ACTION_SEND.equals(action) && ("image/*".equals(type) || "image/jpeg".equals(type) || "image/png".equals(type) || "image/jpg".equals(type) ) ) {
+          Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+          // value = "file://" + RealPathUtil.getRealPathFromURI(MainActivity.this, uri);
+          value = uri.toString();
+        } else if (Intent.ACTION_SEND.equals(action) && "text/x-vcard".equals(type)) {
+          Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+          value = uri.toString();
+        } else {
+          value = "";
+        }
+
         Bundle bundle = new Bundle();
-// Toast.makeText(this, intent.getStringExtra(Intent.EXTRA_TEXT), Toast.LENGTH_SHORT).show();
-          // Log.e("bundle_data",intent.getStringExtra(Intent.EXTRA_TEXT)+" hh");
-        bundle.putString("url", intent.getData.toString());
+        // Log.e("bundle_data",intent.getStringExtra(Intent.EXTRA_TEXT)+" hh");
+        // bundle.putString("url", intent.toString());
+        // bundle.putString("krishna", "krishna");
+        bundle.putString("type", type);
+        bundle.putString("value",value);
         return bundle;
       }
     };

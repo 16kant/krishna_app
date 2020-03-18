@@ -1,5 +1,5 @@
 import React, {useContext, useReducer, useEffect} from 'react';
-import {StatusBar, View, UIManager, Platform} from 'react-native';
+import {StatusBar, View, UIManager, Platform, Text, Image} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import messaging, {firebase} from '@react-native-firebase/messaging';
 // import {Provider} from 'react-redux';
@@ -18,7 +18,7 @@ if (
 }
 
 const App = props => {
-  console.log('props>>>>>>', props.url);
+  console.log('props>>>>>>\n', props);
   const initialState = useContext(AppContext);
   const userInitialState = useContext(UserContext);
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -27,13 +27,13 @@ const App = props => {
   useEffect(() => {
     const registerAppWithFCM = async () => {
       await messaging().registerForRemoteNotifications();
-      console.log('registerAppWithFCM>>>');
+      // console.log('registerAppWithFCM>>>');
     };
     registerAppWithFCM();
 
     const requestPermission = () => {
       const granted = messaging().requestPermission();
-      console.log('granted>>>', granted);
+      // console.log('granted>>>', granted);
     };
     requestPermission();
 
@@ -46,7 +46,7 @@ const App = props => {
           await AsyncStorage.setItem('fcmToken', fcmToken);
         }
       }
-      console.log('fcm Token>>>', fcmToken);
+      // console.log('fcm Token>>>', fcmToken);
     };
     getToken();
 
@@ -84,14 +84,47 @@ const App = props => {
 
   return (
     // <Provider store={store}>
-    <UserContext.Provider value={{userState, userDispatch}}>
-      <AppContext.Provider value={{state, dispatch}}>
-        <View style={{flex: 1}}>
-          <StatusBar translucent={true} backgroundColor="transparent" />
-          <SwitchNavigator />
+    // <UserContext.Provider value={{userState, userDispatch}}>
+    //   <AppContext.Provider value={{state, dispatch}}>
+    // <View style={{flex: 1}}>
+    <>
+      <StatusBar translucent={true} backgroundColor="transparent" />
+      <View
+        style={{
+          backgroundColor: '#fff',
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'space-evenly'
+        }}>
+        <Text style={{fontWeight: 'bold'}}>{props?.type}</Text>
+        {props.type === 'image/*' && (
+          <Image
+            source={{uri: props?.value}}
+            style={{
+              height: 150,
+              width: 150,
+              backgroundColor: '#ccc'
+            }}
+          />
+        )}
+        <View
+          style={{
+            borderWidth: 4,
+            borderColor: '#777',
+            borderRadius: 5,
+            width: '90%',
+            padding: 30
+          }}>
+          <Text style={{fontWeight: 'bold', textAlign: 'left'}}>
+            {props?.value}
+          </Text>
         </View>
-      </AppContext.Provider>
-    </UserContext.Provider>
+      </View>
+    </>
+    //       <SwitchNavigator />
+    //     </View>
+    //   </AppContext.Provider>
+    // </UserContext.Provider>
     // </Provider>
   );
 };

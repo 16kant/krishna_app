@@ -14,8 +14,9 @@
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-        android:windowSoftInputMode="adjustResize"
-        android:launchMode="singleInstance">
+        android:windowSoftInputMode="adjustResize">
+        <!-- android:launchMode="singleInstance" -->
+        
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
@@ -32,6 +33,15 @@
             <data android:mimeType="text/plain"/>
             <data android:mimeType="text/x-vcard"/>
             <data android:mimeType="image/*"/>
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <data android:scheme="content" />
+            <data android:scheme="file" />
+            <data android:mimeType="text/x-vcard" />
+            <data android:mimeType="vnd.android.cursor.dir/contact" />
+            <data android:mimeType="vnd.android.cursor.item/contact" />
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />

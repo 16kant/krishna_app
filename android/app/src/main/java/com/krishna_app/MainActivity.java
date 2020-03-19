@@ -9,9 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.net.Uri;
 
-import android.graphics.Bitmap;
-import java.io.InputStream;
-
 public class MainActivity extends ReactActivity {
 
   /**
@@ -36,7 +33,7 @@ public class MainActivity extends ReactActivity {
         String value = "";
         String type = "";
         String action = "";
-
+        
         Intent intent = MainActivity.this.getIntent();
         
         action = intent.getAction();
@@ -48,7 +45,6 @@ public class MainActivity extends ReactActivity {
           value = intent.getStringExtra(Intent.EXTRA_TEXT);
         } else if (Intent.ACTION_SEND.equals(action) && ("image/*".equals(type) || "image/jpeg".equals(type) || "image/png".equals(type) || "image/jpg".equals(type) ) ) {
           Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-          // value = "file://" + RealPathUtil.getRealPathFromURI(MainActivity.this, uri);
           value = uri.toString();
         } else if (Intent.ACTION_SEND.equals(action) && "text/x-vcard".equals(type)) {
           Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
@@ -58,9 +54,6 @@ public class MainActivity extends ReactActivity {
         }
 
         Bundle bundle = new Bundle();
-        // Log.e("bundle_data",intent.getStringExtra(Intent.EXTRA_TEXT)+" hh");
-        // bundle.putString("url", intent.toString());
-        // bundle.putString("krishna", "krishna");
         bundle.putString("type", type);
         bundle.putString("value",value);
         return bundle;
